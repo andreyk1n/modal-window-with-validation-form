@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <button id="openModalBtn">Відкрити модальне вікно</button>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModalBtn">&times;</span>
+            <form id="myForm">
+                <label for="name">Ім'я:</label>
+                <input type="text" id="name" name="name">
+                <span id="nameError" class="error"></span><br>
+        
+                <label for="phone">Телефон:</label>
+                <input type="tel" id="phone" name="phone">
+                <span id="phoneError" class="error"></span><br>
+        
+                <label for="email">Емейл:</label>
+                <input type="email" id="email" name="email">
+                <span id="emailError" class="error"></span><br>
+        
+                <input type="button" value="Надіслати" onclick="validateForm()">
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const modal = document.getElementById('myModal');
+
+            openModalBtn.addEventListener('click', function () {
+                modal.style.display = 'flex';
+            });
+
+            closeModalBtn.addEventListener('click', function () {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        function validateForm() {
+      var name = document.getElementById('name').value;
+      var phone = document.getElementById('phone').value;
+      var email = document.getElementById('email').value;
+  
+      var nameError = document.getElementById('nameError');
+      var phoneError = document.getElementById('phoneError');
+      var emailError = document.getElementById('emailError');
+  
+      // Очищення попередніх помилок
+      nameError.textContent = '';
+      phoneError.textContent = '';
+      emailError.textContent = '';
+  
+      // Валідація ім'я (приклад: не менше 3 символів)
+      if (name.length === 0) {
+        nameError.textContent = 'Будь ласка, введіть ім\'я.';
+      } else if (name.length < 3) {
+        nameError.textContent = 'Ім\'я повинно містити щонайменше 3 символи.';
+        document.getElementById('name').value = ''; // Очищення поля ім'я
+      }
+  
+      if (phone.length === 0) {
+        phoneError.textContent = 'Будь ласка, введіть номер телефону.';
+      } else {
+        var phonePattern = /^\+380\d{9}$/;
+        if (!phonePattern.test(phone)) {
+          phoneError.textContent = 'Введіть коректний номер телефону (+380XXXXXXXXX).';
+          document.getElementById('phone').value = ''; // Очищення поля телефон
+        }
+      }
+  
+      // Валідація емейлу
+      if (email.length === 0) {
+        emailError.textContent = 'Будь ласка, введіть емейл.';
+      } else {
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(email)) {
+          emailError.textContent = 'Введіть коректний емейл.';
+          document.getElementById('email').value = ''; // Очищення поля емейл
+        }
+      }
+  
+      // Перевірка, чи є хоча б одне поле порожнім
+      if (name.length === 0 || phone.length === 0 || email.length === 0) {
+        return false;
+      }
+    }
+
+    </script>
+</body>
+
+</html>
